@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Калькулятор и Учет Товаров</title>
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=E2RRcQ7M46ciE0huVU18kKpD-PUlzTP4eaHOAEWa2OxfXfAoXqJN_8TT2wA-NoePIPJ0sGxMh50gboFYzNI1opQPYj7WVRP4W68zVmIN5yLtmi1Z2mq6S48pt-jlLOw1Y1KSeN0PAIujkbB81ZIWz7YGxu18SOqkQqXTLT6WIvzE0zHNWsHZ3tStKt8-NfnSYasAhrTzChfni64SQ2dKFk9THxBofuQzcuOW9W0Oo3-r-lT1mCVnxfCwYS0-akZXiUALxEquhE7fDo9qV8tZEC9qThNTrGMY8uU9pCGQXusVf9_836u6CFb78wvLyiE3ga3eDv4CCahslYPQyR_eXeBaDB08iwMNt4kFuSr2DeI_tKMjqJD8V-qADZtI7gSFeYb7NbpjUVTWEfMrS1PBHqxBw59jX_7bgO95Bwr3sRwGYJ5iUHdbWTJd7rzYpD8wxPqYHSWqw0HcBm1poxTU9OAGzPK2JEC-Uv7wJhfapys" charset="UTF-8"></script><style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        h1, h2, h3 {
+            color: #333;
+        }
+        
+        .task {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .calculator {
+            border: 1px solid #000;
+            padding: 10px;
+            width: 300px;
+            background-color: #eee;
+        }
+        
+        .display {
+            width: 100%;
+            height: 40px;
+            font-size: 20px;
+            text-align: right;
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid #999;
+            background-color: white;
+        }
+        
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+        
+        button {
+            height: 40px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .number { background-color: #f0f0f0; }
+        .operator { background-color: #d0d0ff; }
+        .function { background-color: #ffd0d0; }
+        .special { background-color: #d0ffd0; }
+        .clear { background-color: #ffd0d0; }
+        .equals { background-color: #ffffd0; }
+        
+        .form-group {
+            margin-bottom: 10px;
+        }
+        
+        label {
+            display: inline-block;
+            width: 150px;
+        }
+        
+        input, select {
+            width: 200px;
+            padding: 5px;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #ddd;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Задания по JavaScript</h1>
+    
+    <!-- Задание 1: Калькулятор -->
+    <div class="task">
+        <h2>Задание 1: Калькулятор</h2>
+        <p>Вычисляет арифметические действия и функции sin, cos, tg, exp, log. Поддерживает ввод π и e.</p>
+        
+        <div class="calculator">
+            <input type="text" class="display" id="display" value="0" readonly>
+            
+            <div class="buttons">
+                <!-- Первый ряд: функции и очистка -->
+                <button class="function" onclick="calculateFunction('sin')">sin</button>
+                <button class="function" onclick="calculateFunction('cos')">cos</button>
+                <button class="function" onclick="calculateFunction('tan')">tg</button>
+                <button class="clear" onclick="clearDisplay()">C</button>
+                
+                <!-- Второй ряд: функции и операторы -->
+                <button class="function" onclick="calculateFunction('exp')">exp</button>
+                <button class="function" onclick="calculateFunction('log')">log</button>
+                <button class="special" onclick="insertConstant('pi')">π</button>
+                <button class="operator" onclick="appendOperator('/')">/</button>
+                
+                <!-- Третий ряд: числа 7-9 -->
+                <button class="number" onclick="appendNumber('7')">7</button>
+                <button class="number" onclick="appendNumber('8')">8</button>
+                <button class="number" onclick="appendNumber('9')">9</button>
+                <button class="operator" onclick="appendOperator('*')">×</button>
+                
+                <!-- Четвертый ряд: числа 4-6 -->
+                <button class="number" onclick="appendNumber('4')">4</button>
+                <button class="number" onclick="appendNumber('5')">5</button>
+                <button class="number" onclick="appendNumber('6')">6</button>
+                <button class="operator" onclick="appendOperator('-')">-</button>
+                
+                <!-- Пятый ряд: числа 1-3 -->
+                <button class="number" onclick="appendNumber('1')">1</button>
+                <button class="number" onclick="appendNumber('2')">2</button>
+                <button class="number" onclick="appendNumber('3')">3</button>
+                <button class="operator" onclick="appendOperator('+')">+</button>
+                
+                <!-- Шестой ряд: 0, точка, e, равно -->
+                <button class="number" style="grid-column: span 2;" onclick="appendNumber('0')">0</button>
+                <button class="number" onclick="appendDecimal()">.</button>
+                <button class="special" onclick="insertConstant('e')">e</button>
+                <button class="equals" onclick="calculateResult()">=</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Задание 2: Прямое добавление в таблицу -->
+    <div class="task">
+        <h2>Задание 2: Форма товаров (прямое добавление)</h2>
+        <p>При нажатии на кнопку товар автоматически появляется в таблице.</p>
+        
+        <form id="productForm1">
+            <div class="form-group">
+                <label for="name1">Название товара:</label>
+                <input type="text" id="name1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="category1">Категория:</label>
+                <select id="category1" required>
+                    <option value="">Выберите</option>
+                    <option value="Электроника">Электроника</option>
+                    <option value="Одежда">Одежда</option>
+                    <option value="Книги">Книги</option>
+                    <option value="Продукты">Продукты</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="price1">Цена (руб.):</label>
+                <input type="number" id="price1" min="0" step="0.01" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="quantity1">Количество:</label>
+                <input type="number" id="quantity1" min="1" required>
+            </div>
+            
+            <button type="button" class="btn" onclick="addProductDirect()">Добавить товар</button>
+        </form>
+        
+        <h3>Таблица товаров:</h3>
+        <table id="table1">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Категория</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Стоимость</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody1">
+                <!-- Товары будут добавляться сюда -->
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Задание 3: Добавление через массив объектов -->
+    <div class="task">
+        <h2>Задание 3: Форма товаров (через массив объектов)</h2>
+        <p>Товар добавляется в массив объектов, затем вызывается функция обновления таблицы.</p>
+        
+        <form id="productForm2">
+            <div class="form-group">
+                <label for="name2">Название товара:</label>
+                <input type="text" id="name2" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="category2">Категория:</label>
+                <select id="category2" required>
+                    <option value="">Выберите</option>
+                    <option value="Электроника">Электроника</option>
+                    <option value="Одежда">Одежда</option>
+                    <option value="Книги">Книги</option>
+                    <option value="Продукты">Продукты</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="price2">Цена (руб.):</label>
+                <input type="number" id="price2" min="0" step="0.01" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="quantity2">Количество:</label>
+                <input type="number" id="quantity2" min="1" required>
+            </div>
+            
+            <button type="button" class="btn" onclick="addProductViaArray()">Добавить товар</button>
+        </form>
+        
+        <h3>Таблица товаров (из массива):</h3>
+        <table id="table2">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Название</th>
+                    <th>Категория</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Стоимость</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody2">
+                <!-- Товары будут добавляться сюда -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // ========== ЗАДАНИЕ 1: КАЛЬКУЛЯТОР ==========
+        
+        let displayValue = '0';
+        let waitingForOperand = false;
+        let operator = '';
+        let operand1 = 0;
+        
+        function updateDisplay() {
+            document.getElementById('display').value = displayValue;
+        }
+        
+        function appendNumber(number) {
+            if (waitingForOperand) {
+                displayValue = number;
+                waitingForOperand = false;
+            } else {
+                displayValue = displayValue === '0' ? number : displayValue + number;
+            }
+            updateDisplay();
+        }
+        
+        function appendOperator(op) {
+            if (operator && !waitingForOperand) {
+                calculateResult();
+            }
+            
+            operator = op;
+            operand1 = parseFloat(displayValue);
+            waitingForOperand = true;
+        }
+        
+        function calculateResult() {
+            if (!operator) return;
+            
+            const operand2 = parseFloat(displayValue);
+            let result = 0;
+            
+            switch(operator) {
+                case '+':
+                    result = operand1 + operand2;
+                    break;
+                case '-':
+                    result = operand1 - operand2;
+                    break;
+                case '*':
+                    result = operand1 * operand2;
+                    break;
+                case '/':
+                    result = operand2 !== 0 ? operand1 / operand2 : 'Ошибка';
+                    break;
+            }
+            
+            displayValue = String(result);
+            operator = '';
+            waitingForOperand = true;
+            updateDisplay();
+        }
+        
+        function calculateFunction(func) {
+            const value = parseFloat(displayValue);
+            let result = 0;
+            
+            switch(func) {
+                case 'sin':
+                    result = Math.sin(value);
+                    break;
+                case 'cos':
+                    result = Math.cos(value);
+                    break;
+                case 'tan':
+                    result = Math.tan(value);
+                    break;
+                case 'exp':
+                    result = Math.exp(value);
+                    break;
+                case 'log':
+                    result = value > 0 ? Math.log(value) : 'Ошибка';
+                    break;
+            }
+            
+            // Округляем результат для лучшего отображения
+            if (typeof result === 'number') {
+                result = Math.round(result * 100000000) / 100000000;
+            }
+            
+            displayValue = String(result);
+            updateDisplay();
+        }
+        
+        function insertConstant(constant) {
+            switch(constant) {
+                case 'pi':
+                    displayValue = String(Math.PI);
+                    break;
+                case 'e':
+                    displayValue = String(Math.E);
+                    break;
+            }
+            updateDisplay();
+        }
+        
+        function appendDecimal() {
+            if (waitingForOperand) {
+                displayValue = '0.';
+                waitingForOperand = false;
+            } else if (!displayValue.includes('.')) {
+                displayValue += '.';
+            }
+            updateDisplay();
+        }
+        
+        function clearDisplay() {
+            displayValue = '0';
+            operator = '';
+            operand1 = 0;
+            waitingForOperand = false;
+            updateDisplay();
+        }
+        
+        // Инициализация калькулятора
+        updateDisplay();
+        
+        // ========== ЗАДАНИЕ 2: ПРЯМОЕ ДОБАВЛЕНИЕ ==========
+        
+        function addProductDirect() {
+            // Получаем значения из формы
+            const name = document.getElementById('name1').value.trim();
+            const category = document.getElementById('category1').value;
+            const price = parseFloat(document.getElementById('price1').value);
+            const quantity = parseInt(document.getElementById('quantity1').value);
+            
+            // Проверяем ввод
+            if (!name || !category || isNaN(price) || isNaN(quantity) || price < 0 || quantity < 1) {
+                alert('Пожалуйста, заполните все поля корректно!');
+                return;
+            }
+            
+            // Вычисляем общую стоимость
+            const total = price * quantity;
+            
+            // Получаем таблицу
+            const tableBody = document.getElementById('tableBody1');
+            
+            // Создаем новую строку
+            const newRow = document.createElement('tr');
+            
+            // Заполняем ячейки
+            newRow.innerHTML = `
+                <td>${name}</td>
+                <td>${category}</td>
+                <td>${price.toFixed(2)}</td>
+                <td>${quantity}</td>
+                <td>${total.toFixed(2)}</td>
+            `;
+            
+            // Добавляем строку в таблицу
+            tableBody.appendChild(newRow);
+            
+            // Очищаем форму
+            document.getElementById('productForm1').reset();
+        }
+        
+        // ========== ЗАДАНИЕ 3: МАССИВ ОБЪЕКТОВ ==========
+        
+        // Массив для хранения товаров
+        let productsArray = [];
+        
+        function addProductViaArray() {
+            // Получаем значения из формы
+            const name = document.getElementById('name2').value.trim();
+            const category = document.getElementById('category2').value;
+            const price = parseFloat(document.getElementById('price2').value);
+            const quantity = parseInt(document.getElementById('quantity2').value);
+            
+            // Проверяем ввод
+            if (!name || !category || isNaN(price) || isNaN(quantity) || price < 0 || quantity < 1) {
+                alert('Пожалуйста, заполните все поля корректно!');
+                return;
+            }
+            
+            // Создаем объект товара
+            const product = {
+                id: productsArray.length + 1,
+                name: name,
+                category: category,
+                price: price,
+                quantity: quantity,
+                total: price * quantity
+            };
+            
+            // Добавляем товар в массив
+            productsArray.push(product);
+            
+            // Обновляем таблицу
+            updateProductsTable();
+            
+            // Очищаем форму
+            document.getElementById('productForm2').reset();
+        }
+        
+        function updateProductsTable() {
+            // Получаем тело таблицы
+            const tableBody = document.getElementById('tableBody2');
+            
+            // Очищаем таблицу
+            tableBody.innerHTML = '';
+            
+            // Проверяем, есть ли товары
+            if (productsArray.length === 0) {
+                const emptyRow = document.createElement('tr');
+                emptyRow.innerHTML = '<td colspan="6">Нет товаров</td>';
+                tableBody.appendChild(emptyRow);
+                return;
+            }
+            
+            // Добавляем каждый товар из массива
+            for (let i = 0; i < productsArray.length; i++) {
+                const product = productsArray[i];
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${product.id}</td>
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>${product.price.toFixed(2)}</td>
+                    <td>${product.quantity}</td>
+                    <td>${product.total.toFixed(2)}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            }
+        }
+        
+        // Добавляем начальные данные для демонстрации
+        window.onload = function() {
+            // Для задания 3 добавляем тестовые товары
+            productsArray = [
+                {
+                    id: 1,
+                    name: "Ноутбук Lenovo",
+                    category: "Электроника",
+                    price: 45000.00,
+                    quantity: 2,
+                    total: 90000.00
+                },
+                {
+                    id: 2,
+                    name: "Футболка",
+                    category: "Одежда",
+                    price: 1500.00,
+                    quantity: 5,
+                    total: 7500.00
+                }
+            ];
+            
+            // Обновляем таблицу задания 3
+            updateProductsTable();
+            
+            // Для задания 2 добавляем тестовые товары напрямую в таблицу
+            const tableBody1 = document.getElementById('tableBody1');
+            const initialProducts = [
+                ['Мышь компьютерная', 'Электроника', 1500.00, 3, 4500.00],
+                ['Учебник по математике', 'Книги', 800.00, 10, 8000.00]
+            ];
+            
+            for (let i = 0; i < initialProducts.length; i++) {
+                const product = initialProducts[i];
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${product[0]}</td>
+                    <td>${product[1]}</td>
+                    <td>${product[2].toFixed(2)}</td>
+                    <td>${product[3]}</td>
+                    <td>${product[4].toFixed(2)}</td>
+                `;
+                
+                tableBody1.appendChild(row);
+            }
+        };
+    </script>
+</body>
+</html>

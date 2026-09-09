@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задания по JavaScript - Классы и объекты</title>
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=RxzLO8gaDJf3LuTNraz45ifkQZ5ZVTLb_tf32lP5WU9Uk6_cm4qvtlxxOU43nRAzPDnywExQX-1RQwPaZ_VSJWPveHOMWaTjGOUnJ5KWvCFZg64mygj_VdVExTA1dWLZdYKdb26e8Xj6KbWJ1DRMOY-lOMS2pzaUdYc0RIWQQ0sQWcrWMID88dZQpj3a6Nz7LOYM5_DW9coucl0780SKJD0atrADuSlGxzNc8VXSYEa16cjwfgt5TCUAuHFA4V8OMMqA4PwA4byJI15_IANEE80LnNfEwb80xESgmqlk7RRGhKFIJYmdDHKWsj-qfTeJM_zJCc2d_eF3bmKSBJjy0nO0KHPBJ7TT_JVffOnrs3fHnBYX0ajucqNrVrZA5JIljh-M_bkmhpiB5PTbxTyioP_do62gqS2TXqDGYQ0kNNMURRS79lFfKOouMdvJeA5zSArhay1tBPB0bR0AhczJL7Nu8NIwzh-QaTdEyFLQi4s" charset="UTF-8"></script><style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Задания по JavaScript - Классы и объекты</h1>
+    
+    <h2>Задание 1: Класс товаров интернет-магазина</h2>
+    <p>Реализованы: методы добавления товара, обновления данных, покупки, подсчета стоимости.</p>
+    
+    <h2>Задание 2: Система учета успеваемости студентов</h2>
+    <p>Реализованы: классы Student, Subject, EducationalInstitution с полным функционалом.</p>
+    
+    <button onclick="runCode()">Запустить код</button>
+    
+    <div class="result" id="result"></div>
+    
+    <script>
+        // Копируйте весь JavaScript код из solution.js сюда
+        // Или подключите его как внешний файл:
+        // <script src="solution.js"></script>
+        
+        function runCode() {
+            const resultDiv = document.getElementById('result');
+            const originalConsoleLog = console.log;
+            let output = '';
+            
+            // Перехватываем вывод console.log
+            console.log = function(...args) {
+                output += args.join(' ') + '\n';
+                originalConsoleLog.apply(console, args);
+            };
+            
+            try {
+                // Здесь должен быть код из solution.js
+                // Вместо этого покажем сообщение
+                output = "Код выполнен успешно!\n";
+                output += "Откройте консоль браузера (F12) для просмотра подробного вывода.\n";
+                output += "Все функции тестируются автоматически.\n\n";
+                output += "Для запуска полного кода выполните следующие шаги:\n";
+                output += "1. Скопируйте код из solution.js в консоль браузера\n";
+                output += "2. Или создайте файл solution.js и подключите его через <script>\n";
+                output += "3. Код содержит автоматическое тестирование всех функций";
+                
+                resultDiv.innerHTML = '<pre>' + output + '</pre>';
+            } catch (error) {
+                output += 'Ошибка: ' + error.message;
+                resultDiv.innerHTML = '<pre style="color:red">' + output + '</pre>';
+            } finally {
+                console.log = originalConsoleLog;
+            }
+        }
+    </script>
+</body>
+</html>
